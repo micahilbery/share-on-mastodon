@@ -10,7 +10,7 @@ To install this component all you need to do is add this script tag
 to the bottom of your page:
 
 ```html
-<script type="module" src="https://cdn.jsdelivr.net/npm/share-on-mastodon@1.0.1/share-on-mastodon.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@micahilbery/share-on-mastodon@1.0.2/share-on-mastodon.js"></script>
 ```
 
 ## Usage

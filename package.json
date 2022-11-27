@@ -1,8 +1,13 @@
 {
   "name": "@micahilbery/share-on-mastodon",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A web component to add a customizeable \"Share to Mastodon\" button to your pages.",
   "main": "share-on-mastodon.js",
+  "module": "share-on-mastodon.js",
+  "files": [
+    "src/**/*",
+    "share-on-mastodon.js"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
