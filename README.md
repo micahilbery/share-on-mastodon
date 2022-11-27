@@ -1,4 +1,4 @@
-# share-to-mastodon
+# share-on-mastodon
 A customizable "Share on Mastodon" button. The goal in making this web component
 was to create a simple "Share on Mastodon" button people could easily add to the
 bottom of their blog posts or project pages. It is customizable if you would
@@ -10,7 +10,7 @@ To install this component all you need to do is add this script tag
 to the bottom of your page:
 
 ```html
-<script type="module" src="https://cdn.jsdelivr.net/npm/@micahilbery/share-on-mastodon@1.0.3/share-on-mastodon.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@micahilbery/share-on-mastodon@1.0.4/share-on-mastodon.js"></script>
 ```
 
 ## Usage
