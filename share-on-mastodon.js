@@ -271,7 +271,7 @@ export class shareOnMastodon extends HTMLElement {
     // If the hashtags attribute is set use it. Otherwise, set it to an empty string
     let hashtags = this.getAttribute('hashtags');
     if (hashtags) {
-      hashtags = hashtags + "\n\n";
+      hashtags = "\n\n" + hashtags;
     } else {
       hashtags = "";
     };
@@ -279,7 +279,7 @@ export class shareOnMastodon extends HTMLElement {
     // If the author attribute is set use it. Otherwise, set it to an empty string
     let author = this.getAttribute('author');
     if (author) {
-      author = author;
+      author = "\n\n" + author;
     } else {
       author = "";
     };

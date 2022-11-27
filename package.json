@@ -1,7 +1,7 @@
 {
   "name": "@micahilbery/share-on-mastodon",
-  "version": "1.0.4",
-  "description": "A web component to add a customizeable \"Share to Mastodon\" button to your pages.",
+  "version": "1.0.5",
+  "description": "A web component to add a customizeable \"Share on Mastodon\" button to your pages.",
   "main": "share-on-mastodon.js",
   "module": "share-on-mastodon.js",
   "files": [
