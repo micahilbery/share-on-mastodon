@@ -19,7 +19,7 @@ After installation all you need to do is insert the custom element into your
 html with:
 
 ```html
-<share-on-mastodon></share-on-mastodon>
+<share-on-mastodon/>
 ```
 
 to customize the markup and shared message you can use the custom attributes.
