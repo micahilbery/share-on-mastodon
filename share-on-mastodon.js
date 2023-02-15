@@ -158,7 +158,7 @@ template.innerHTML = `
   <span id="btnText">Share on Mastodon</span>
 </button>
 
-<dialog id="mastodonModal" class="modal">
+<dialog id="mastodonModal" class="modal" aria-labelledby="modalHeading">
   <h1 id="modalHeading">Please enter your instance</h1>
   <p id="modalText">As Mastodon has many servers, we need to know where to send the request. We'll try to remember your instance for next time.</p>
   <form id="modalForm" method="dialog" >
