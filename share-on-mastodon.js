@@ -192,27 +192,27 @@ export class shareOnMastodon extends HTMLElement {
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
 
-    // Get button text from atrribute if available
+    // Get button text from attribute if available
     if (this.getAttribute('button_text')) {
       this.shadowRoot.querySelector('#btnText').innerHTML = this.getAttribute('button_text');
     };
 
-    // Get the modal heading from atrribute if available
+    // Get the modal heading from attribute if available
     if (this.getAttribute('modal_heading')) {
       this.shadowRoot.querySelector('#modalHeading').innerHTML = this.getAttribute('modal_heading');
     };
 
-    // Get the modal text from atrribute if available
+    // Get the modal text from attribute if available
     if (this.getAttribute('modal_text')) {
       this.shadowRoot.querySelector('#modalText').innerHTML = this.getAttribute('modal_text');
     };
 
-    // Get the default url to use as placeholder text from atrribute if available
+    // Get the default url to use as placeholder text from attribute if available
     if (this.getAttribute('default_url')) {
       this.shadowRoot.querySelector('#instanceInput').placeholder = this.getAttribute('default_url');
     };
 
-    // Get the share button text from atrribute if available
+    // Get the share button text from attribute if available
     if (this.getAttribute('share_text')) {
       this.shadowRoot.querySelector('#shareText').innerHTML = this.getAttribute('share_text');
     };
