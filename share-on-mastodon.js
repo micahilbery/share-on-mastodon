@@ -162,7 +162,7 @@ template.innerHTML = `
   <h1 id="modalHeading">Please enter your instance</h1>
   <p id="modalText">As Mastodon has many servers, we need to know where to send the request. We'll try to remember your instance for next time.</p>
   <form id="modalForm" method="dialog" >
-    <input id="instanceInput" type="url" placeholder="https://mastodon.social/" required="true"/>
+    <input id="instanceInput" type="url" placeholder="https://mastodon.social/" required="true" aria-labelledby="modalHeading" aria-describedby="modalText" autofocus />
     <button id="shareBtn" class="btn" type="submit">
       <span class="icon" aria-hidden="true">
         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" version="1.1" viewBox="0 0 16 16">
