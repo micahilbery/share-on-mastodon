@@ -174,8 +174,8 @@ template.innerHTML = `
   </form>
 
   <form method="dialog" id="modalClose">
-    <button class="btn-close" aria-label="Close">
-      <span class="icon" aria-hidden="true">
+    <button class="btn-close" aria-label="Close" part="button">
+      <span class="icon" aria-hidden="true" part="icon">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
           <path d="M3.99 2.99a1 1 0 00-.697 1.717L6.586 8l-3.293 3.293a1 1 0 101.414 1.414L8 9.414l3.293 3.293a1 1 0 101.414-1.414L9.414 8l3.293-3.293a1 1 0 00-.727-1.717 1 1 0 00-.687.303L8 6.586 4.707 3.293a1 1 0 00-.717-.303z"/>
         </svg>
