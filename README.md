@@ -1,4 +1,5 @@
 # share-on-mastodon
+
 A customizable "Share on Mastodon" button. The goal in making this web component
 was to create a simple "Share on Mastodon" button people could easily add to the
 bottom of their blog posts or project pages. It is customizable if you would
@@ -19,7 +20,7 @@ After installation all you need to do is insert the custom element into your
 html with:
 
 ```html
-<share-on-mastodon/>
+<share-on-mastodon></share-on-mastodon>
 ```
 
 to customize the markup and shared message you can use the custom attributes.
@@ -58,15 +59,24 @@ class and set the css variables in it. Then give the custom element that class.
 
 ## Custom Attributes
 
- - `share_title` - Adds a title to the shared message body.
- - `share_description` - Adds a description to the shared message body.
- - `hashtags` - Adds hashtags to the shared message body. space separated (ex: `hashtags="#hashtag1 #hashtag2"`)
- - `author` - Adds a mastodon username to the shared message body.
- - `default_url` - The url used for the placeholder text of the modal input.
- - `button_text` = Sets the text of the main button.
- - `modal_heading` - Sets the text of the modal heading.
- - `modal_text` - Sets the modal's text.
- - `share_text` - Sets the text of the modal button.
+- `share_title` - Adds a title to the shared message body.
+- `share_description` - Adds a description to the shared message body.
+- `hashtags` - Adds hashtags to the shared message body. space separated (ex: `hashtags="#hashtag1 #hashtag2"`)
+- `author` - Adds a mastodon username to the shared message body.
+- `default_url` - The url used for the placeholder text of the modal input.
+- `button_text` = Sets the text of the main button.
+- `modal_heading` - Sets the text of the modal heading.
+- `modal_text` - Sets the modal's text.
+- `share_text` - Sets the text of the modal button.
+
+## Custom slots
+
+- `button` - Replace the default button with your own.
+  ```html
+  <share-on-mastodon>
+    <button slot="button">My own button</button>
+  </share-on-mastodon>
+  ```
 
 ## Custom Styles
 
