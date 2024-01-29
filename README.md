@@ -11,7 +11,7 @@ To install this component all you need to do is add this script tag
 to the bottom of your page:
 
 ```html
-<script defer type="module" src="https://cdn.jsdelivr.net/npm/@micahilbery/share-on-mastodon@1.1.3/share-on-mastodon.min.js"></script>
+<script defer type="module" src="https://cdn.jsdelivr.net/npm/@micahilbery/share-on-mastodon@1.1.4/share-on-mastodon.min.js"></script>
 ```
 
 ## Usage
