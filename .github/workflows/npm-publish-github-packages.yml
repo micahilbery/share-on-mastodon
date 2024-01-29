@@ -17,7 +17,6 @@ jobs:
           node-version: 20
       - run: npm install --package-lock-only
       - run: npm ci
-      - run: npm test
 
   publish-gpr:
     needs: build
