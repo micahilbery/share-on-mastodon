@@ -250,7 +250,7 @@ export class shareOnMastodon extends HTMLElement {
 
   openModal() {
     // Prefill the form with the user's previously-specified Mastodon instance, if applicable
-    const storedInstance = localStorage.getItem("mastodonInstance");
+    const storedInstance = localStorage?.getItem("mastodonInstance");
     if (storedInstance) {
       this.shadowRoot.querySelector("#instance-input").value = storedInstance;
     }
