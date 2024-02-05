@@ -1,10 +1,10 @@
 // Get the page title to use if a title isn't set.
 const docTitle = document.getElementsByTagName("title")[0].innerHTML;
-const template =  document.createElement('template');
+const template = document.createElement("template");
 template.innerHTML = `
 <style>
   button:focus,
-  input:focus {
+  input:focus-visible {
     outline: var(--mastodon-focus-ring, 2px solid #3B82F6);
     outline-offset: .12rem;
   }
@@ -12,6 +12,7 @@ template.innerHTML = `
   .btn-container {
     display: inline-block;
   }
+
   .btn {
     background-color: var(--mastodon-btn-bg, #563ACC);
     border: var(--mastodon-btn-border, 1px solid #2F0C7A);
@@ -19,28 +20,34 @@ template.innerHTML = `
     color: var(--mastodon-btn-txt, #fff);
     cursor: pointer;
     display: inline-flex;
+    align-items: center;
     font-weight: bold;
     font-size: 1rem;
+    line-height: 1;
     gap: .5em;
-    padding: .5em 1em;
-  }
+    padding: .75em 1em;
 
-  .btn:hover,
-  .btn:focus {
-    filter: brightness(120%);
-  }
+    &:hover,
+    &:focus-visible {
+      filter: brightness(120%);
+    }
 
-  .btn:active {
-    filter: brightness(100%);
+    &:active {
+      filter: brightness(100%);
+    }
+
+    & > span {
+      display: inline-block;
+    }
   }
 
   .icon {
-    margin-top: .12em;
-  }
-
-  .icon > svg {
-    width: 1em;
     height: 1em;
+
+    & > svg {
+      width: 1em;
+      height: 1em;
+    }
   }
 
   .modal {
@@ -55,133 +62,137 @@ template.innerHTML = `
     color: var(--mastodon-modal-txt, #fff);
     max-width: 30em;
     padding: 2rem 2rem 8rem 2rem;
-    position: relative;
     box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+
+    &::backdrop {
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(var(--mastodon-backdrop-blur, 4px));
+    }
   }
 
-  .modal::backdrop {
-    background: rgba(0,0,0,0.8);
-  }
-
-  #modalHeading,
-  #modalSubheading {
+  #modal-heading {
+    text-wrap: balance;
     margin: 0;
     padding: 0;
   }
 
-  #modalForm {
+  #instance-jargon {
+    opacity: .75;
+  }
+
+  #modal-form {
     display: grid;
     gap: 1em;
     grid-template-columns: 1fr auto;
   }
 
   @media(max-width: 480px) {
-    #modalForm {
+    #modal-form {
       grid-template-columns: 1fr;
     }
   }
 
-  #instanceInput {
+  #instance-input {
     background-color: var(--mastodon-input-bg, #313543);
     border: var(--mastodon-input-border, 1px solid #191B22);
     border-radius: var(--mastodon-input-rad, 6px);
     color: var(--mastodon-input-txt, #fff);
     font-size: 1rem;
-    padding: .5em 1em;
+    padding: .75em 1em;
     margin: 0;
+
+    &:placeholder {
+      color: var(--mastodon-modal-txt-alt, #677282);
+    }
+
+    &:valid {
+      outline: var(--mastodon-url-valid, 2px solid #22C55E);
+      outline-offset: .12rem;
+    }
+
+    &:invalid {
+      outline: var(--mastodon-url-invalid, 2px solid #ef4444);
+      outline-offset: .12rem;
+    }
   }
 
-  #instanceInput:placeholder {
-    color: var(--mastodon-modal-txt-alt, #677282);
-  }
-
-  #instanceInput:valid {
-    outline: var(--mastodon-url-valid, 2px solid #22C55E);
-    outline-offset: .12rem;
-  }
-
-  #instanceInput:invalid {
-    outline: var(--mastodon-url-invalid, 2px solid #ef4444);
-    outline-offset: .12rem;
-  }
-
-  #shareBtn {
+  #share-button {
     place-self: center;
   }
 
-  #modalClose {
+  #modal-close {
     position: absolute;
-    top: .5em;
-    right: .5em;
+    inset-block-start: .5em;
+    inset-inline-end: .5em;
   }
 
   .btn-close {
     font-size: 1.25rem;
     background-color: var(--mastodon-close-bg, #313543);
     border: var(--mastodon-close-border, 1px solid #191B22);
-    border-radius: var(--mastodon-close-rad, 50%);
+    border-radius: var(--mastodon-close-rad, 500px);
     color: inherit;
-    padding: 0 .25em .25em .25em;
-  }
+    padding-block: .28em .3em;
+    padding-inline: .25em;
+    aspect-ratio: 1;
 
-  .btn-close:hover,
-  .btn-close:focus {
-    filter: brightness(120%);
-  }
+    &:hover,
+    &:focus-visible {
+      filter: brightness(120%);
+    }
 
-  .btn-close:active {
-    filter: brightness(100%);
-  }
-
-  .btn-close > .icon {
-    margin: 0 0 .5rem 0;
-  }
-
-  .btn-close > .icon > svg {
-    vertical-align: middle;
+    &:active {
+      filter: brightness(80%);
+    }
   }
 
   @keyframes load {
-    0% {
+    from {
       transform: translateY(1vh);
       opacity: 0;
     }
-    100% {
+    to {
       transform: translateY(0);
       opacity: 1;
     }
   }
 </style>
 
-<div id="mastodonBtn" class="btn-container">
+<div id="mastodon-button" class="btn-container">
   <slot name="button">
     <button class="btn" part="button">
-      <span id="mastodonIcon" class="icon" aria-hidden="true" part="icon">
-      <svg viewBox="0 0 74 79" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-        <path d="M73.7014 17.9592C72.5616 9.62034 65.1774 3.04876 56.424 1.77536C54.9472 1.56019 49.3517 0.7771 36.3901 0.7771H36.2933C23.3281 0.7771 20.5465 1.56019 19.0697 1.77536C10.56 3.01348 2.78877 8.91838 0.903306 17.356C-0.00357857 21.5113 -0.100361 26.1181 0.068112 30.3439C0.308275 36.404 0.354874 42.4535 0.91406 48.489C1.30064 52.498 1.97502 56.4751 2.93215 60.3905C4.72441 67.6217 11.9795 73.6395 19.0876 76.0945C26.6979 78.6548 34.8821 79.0799 42.724 77.3221C43.5866 77.1245 44.4398 76.8953 45.2833 76.6342C47.1867 76.0381 49.4199 75.3714 51.0616 74.2003C51.0841 74.1839 51.1026 74.1627 51.1156 74.1382C51.1286 74.1138 51.1359 74.0868 51.1368 74.0592V68.2108C51.1364 68.185 51.1302 68.1596 51.1185 68.1365C51.1069 68.1134 51.0902 68.0932 51.0695 68.0773C51.0489 68.0614 51.0249 68.0503 50.9994 68.0447C50.9738 68.0391 50.9473 68.0392 50.9218 68.045C45.8976 69.226 40.7491 69.818 35.5836 69.8087C26.694 69.8087 24.3031 65.6569 23.6184 63.9285C23.0681 62.4347 22.7186 60.8764 22.5789 59.2934C22.5775 59.2669 22.5825 59.2403 22.5934 59.216C22.6043 59.1916 22.621 59.1702 22.6419 59.1533C22.6629 59.1365 22.6876 59.1248 22.714 59.1191C22.7404 59.1134 22.7678 59.1139 22.794 59.1206C27.7345 60.2936 32.799 60.8856 37.8813 60.8843C39.1036 60.8843 40.3223 60.8843 41.5447 60.8526C46.6562 60.7115 52.0437 60.454 57.0728 59.4874C57.1983 59.4628 57.3237 59.4416 57.4313 59.4098C65.3638 57.9107 72.9128 53.2051 73.6799 41.2895C73.7086 40.8204 73.7803 36.3758 73.7803 35.889C73.7839 34.2347 74.3216 24.1533 73.7014 17.9592ZM61.4925 47.6918H53.1514V27.5855C53.1514 23.3526 51.3591 21.1938 47.7136 21.1938C43.7061 21.1938 41.6988 23.7476 41.6988 28.7919V39.7974H33.4078V28.7919C33.4078 23.7476 31.3969 21.1938 27.3894 21.1938C23.7654 21.1938 21.9552 23.3526 21.9516 27.5855V47.6918H13.6176V26.9752C13.6176 22.7423 14.7157 19.3795 16.9118 16.8868C19.1772 14.4 22.1488 13.1231 25.8373 13.1231C30.1064 13.1231 33.3325 14.7386 35.4832 17.9662L37.5587 21.3949L39.6377 17.9662C41.7884 14.7386 45.0145 13.1231 49.2765 13.1231C52.9614 13.1231 55.9329 14.4 58.2055 16.8868C60.4017 19.3772 61.4997 22.74 61.4997 26.9752L61.4925 47.6918Z" fill="inherit"/>
-      </svg>
+      <span id="mastodon-icon" class="icon" aria-hidden="true" part="icon">
+        <svg viewBox="0 0 74 79" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M73.7014 17.9592C72.5616 9.62034 65.1774 3.04876 56.424 1.77536C54.9472 1.56019 49.3517 0.7771 36.3901 0.7771H36.2933C23.3281 0.7771 20.5465 1.56019 19.0697 1.77536C10.56 3.01348 2.78877 8.91838 0.903306 17.356C-0.00357857 21.5113 -0.100361 26.1181 0.068112 30.3439C0.308275 36.404 0.354874 42.4535 0.91406 48.489C1.30064 52.498 1.97502 56.4751 2.93215 60.3905C4.72441 67.6217 11.9795 73.6395 19.0876 76.0945C26.6979 78.6548 34.8821 79.0799 42.724 77.3221C43.5866 77.1245 44.4398 76.8953 45.2833 76.6342C47.1867 76.0381 49.4199 75.3714 51.0616 74.2003C51.0841 74.1839 51.1026 74.1627 51.1156 74.1382C51.1286 74.1138 51.1359 74.0868 51.1368 74.0592V68.2108C51.1364 68.185 51.1302 68.1596 51.1185 68.1365C51.1069 68.1134 51.0902 68.0932 51.0695 68.0773C51.0489 68.0614 51.0249 68.0503 50.9994 68.0447C50.9738 68.0391 50.9473 68.0392 50.9218 68.045C45.8976 69.226 40.7491 69.818 35.5836 69.8087C26.694 69.8087 24.3031 65.6569 23.6184 63.9285C23.0681 62.4347 22.7186 60.8764 22.5789 59.2934C22.5775 59.2669 22.5825 59.2403 22.5934 59.216C22.6043 59.1916 22.621 59.1702 22.6419 59.1533C22.6629 59.1365 22.6876 59.1248 22.714 59.1191C22.7404 59.1134 22.7678 59.1139 22.794 59.1206C27.7345 60.2936 32.799 60.8856 37.8813 60.8843C39.1036 60.8843 40.3223 60.8843 41.5447 60.8526C46.6562 60.7115 52.0437 60.454 57.0728 59.4874C57.1983 59.4628 57.3237 59.4416 57.4313 59.4098C65.3638 57.9107 72.9128 53.2051 73.6799 41.2895C73.7086 40.8204 73.7803 36.3758 73.7803 35.889C73.7839 34.2347 74.3216 24.1533 73.7014 17.9592ZM61.4925 47.6918H53.1514V27.5855C53.1514 23.3526 51.3591 21.1938 47.7136 21.1938C43.7061 21.1938 41.6988 23.7476 41.6988 28.7919V39.7974H33.4078V28.7919C33.4078 23.7476 31.3969 21.1938 27.3894 21.1938C23.7654 21.1938 21.9552 23.3526 21.9516 27.5855V47.6918H13.6176V26.9752C13.6176 22.7423 14.7157 19.3795 16.9118 16.8868C19.1772 14.4 22.1488 13.1231 25.8373 13.1231C30.1064 13.1231 33.3325 14.7386 35.4832 17.9662L37.5587 21.3949L39.6377 17.9662C41.7884 14.7386 45.0145 13.1231 49.2765 13.1231C52.9614 13.1231 55.9329 14.4 58.2055 16.8868C60.4017 19.3772 61.4997 22.74 61.4997 26.9752L61.4925 47.6918Z" fill="inherit"/>
+        </svg>
       </span>
-      <span id="btnText" part="buttontext">Share on Mastodon</span>
+      <span id="button-text" part="buttontext">Share on Mastodon</span>
     </button>
   </slot>
 </div>
 
-<dialog id="mastodonModal" class="modal" aria-labelledby="modalHeading">
-  <h1 id="modalHeading">Please enter your instance</h1>
-  <p id="modalText">As Mastodon has many servers, we need to know where to send the request. We'll try to remember your instance for next time.</p>
-  <form id="modalForm" method="dialog" >
-    <input id="instanceInput" type="url" placeholder="https://mastodon.social/" required="true" aria-labelledby="modalHeading" aria-describedby="modalText" autofocus />
-    <button id="shareBtn" class="btn" type="submit">
+<dialog id="mastodon-modal" class="modal" aria-labelledby="modal-heading">
+  <h1 id="modal-heading">Please enter your instance</h1>
+  <p id="modal-text">As Mastodon has many servers, we need to know where to send the request. We'll try to remember your instance for next time.</p>
+  <form id="modal-form" method="dialog" >
+    <input id="instance-input" type="url" pattern="https://+.+" placeholder="https://mastodon.social/" required="true" aria-labelledby="modal-heading" aria-describedby="modal-text" autofocus />
+    <button id="share-button" class="btn" type="submit">
       <span class="icon" aria-hidden="true">
         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" version="1.1" viewBox="0 0 16 16">
           <path d="M13.5 1c-.654 0-1.153.206-1.791.463l-.004.002L2.33 4.852C1.595 5.066 1 5.702 1 6.506c0 .824.625 1.405 1.303 1.56l3.342 1.582 3.501-3.502a.5.5 0 0 1 .708 0 .5.5 0 0 1 0 .708L6.35 10.357l1.568 3.34c.087.322.264.618.518.858A1.56 1.56 0 0 0 9.5 15c.813 0 1.359-.63 1.635-1.24a.485.485 0 0 0 .015-.04l3.412-9.642a.335.335 0 0 0 .004-.014C14.721 3.59 15 3.157 15 2.5c0-.823-.677-1.5-1.5-1.5Z"/>
         </svg>
       </span>
-      <span id="shareText">Share…</span>
+      <span id="share-text">Share…</span>
     </button>
   </form>
 
-  <form method="dialog" id="modalClose">
+  <p><small id="instance-jargon">
+    Your socal address or "instance" is the portion after your username.
+    <br>
+    (ex. username@instance.com)
+  </small><p>
+
+  <form method="dialog" id="modal-close">
     <button class="btn-close" aria-label="Close">
       <span class="icon" aria-hidden="true">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
@@ -197,120 +208,143 @@ export class shareOnMastodon extends HTMLElement {
   constructor() {
     super();
 
-    this.attachShadow({ mode: 'open' });
+    this.attachShadow({ mode: "open" });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
 
     // Get button text from attribute if available
-    if (this.getAttribute('button_text')) {
-      this.shadowRoot.querySelector('#btnText').innerHTML = this.getAttribute('button_text');
-    };
+    if (this.getAttribute("data-button-text")) {
+      this.shadowRoot.querySelector("#button-text").innerHTML =
+        this.getAttribute("data-button-text");
+    }
 
     // Get the modal heading from attribute if available
-    if (this.getAttribute('modal_heading')) {
-      this.shadowRoot.querySelector('#modalHeading').innerHTML = this.getAttribute('modal_heading');
-    };
+    if (this.getAttribute("data-modal-heading")) {
+      this.shadowRoot.querySelector("#modal-heading").innerHTML =
+        this.getAttribute("data-modal-heading");
+    }
 
     // Get the modal text from attribute if available
-    if (this.getAttribute('modal_text')) {
-      this.shadowRoot.querySelector('#modalText').innerHTML = this.getAttribute('modal_text');
-    };
+    if (this.getAttribute("data-modal-text")) {
+      this.shadowRoot.querySelector("#modal-text").innerHTML =
+        this.getAttribute("data-modal-text");
+    }
+
+    // Get the modal text from attribute if available
+    if (this.getAttribute("data-jargon-text")) {
+      this.shadowRoot.querySelector("#instance-jargon").innerHTML =
+        this.getAttribute("data-jargon-text");
+    }
 
     // Get the default url to use as placeholder text from attribute if available
-    if (this.getAttribute('default_url')) {
-      this.shadowRoot.querySelector('#instanceInput').placeholder = this.getAttribute('default_url');
-    };
+    if (this.getAttribute("data-default-url")) {
+      this.shadowRoot.querySelector("#instance-input").placeholder =
+        this.getAttribute("data-default-url");
+    }
 
     // Get the share button text from attribute if available
-    if (this.getAttribute('share_text')) {
-      this.shadowRoot.querySelector('#shareText').innerHTML = this.getAttribute('share_text');
-    };
-  }
-
-  openModal() {
-  // Prefill the form with the user's previously-specified Mastodon instance, if applicable
-  if (localStorage['mastodon_instance']) {
-    this.shadowRoot.querySelector('#instanceInput').value = localStorage['mastodon_instance'];
-  }
-
-  // open Dialog as modal
-  this.shadowRoot.querySelector('#mastodonModal').showModal();
-  }
-
-  validate_before_share() {
-    if (this.shadowRoot.querySelector('#instanceInput').checkValidity()) {
-      this.share_on_mastodon();
+    if (this.getAttribute("data-share-text")) {
+      this.shadowRoot.querySelector("#share-text").innerHTML =
+        this.getAttribute("data-share-text");
     }
   }
 
-  share_on_mastodon() {
+  openModal() {
+    // Prefill the form with the user's previously-specified Mastodon instance, if applicable
+    const storedInstance = localStorage.getItem("mastodonInstance");
+    if (storedInstance) {
+      this.shadowRoot.querySelector("#instance-input").value = storedInstance;
+    }
+
+    // open Dialog as modal
+    this.shadowRoot.querySelector("#mastodon-modal").showModal();
+  }
+
+  urlCheck() {
+    let val = this.shadowRoot.querySelector("#instance-input").value;
+    if (!val == "" && !val.startsWith("https://")) {
+      this.shadowRoot.querySelector("#instance-input").value = "https://" + val;
+    }
+    this.shadowRoot.querySelector("#instance-input").checkValidity();
+  }
+
+  shareOnMastodon() {
     // Set instance from the modal text input
-    let instance = this.shadowRoot.querySelector('#instanceInput').value;
+    let instance = this.shadowRoot.querySelector("#instance-input").value;
 
     // check, format, and cache instance
     if (instance) {
       // Handle URL formats
-      if ( !instance.startsWith("https://") && !instance.startsWith("http://") )
+      if (!instance.startsWith("https://") && !instance.startsWith("http://"))
         instance = "https://" + instance;
 
       // Handle ending slash
-      if ( !instance.endsWith("/") )
-        instance = instance + "/";
+      if (!instance.endsWith("/")) instance = instance + "/";
 
       // Cache the instance/domain for future requests
-      localStorage['mastodon_instance'] = instance;
-    };
+      localStorage.setItem("mastodonInstance", instance);
+    }
 
-    // If the share_title attribute is set use it. Otherwise, use the page title
+    // If the share-title attribute is set use it. Otherwise, use the page title
     let shareTitle = this.pageTitle;
-    if (this.getAttribute('share_title')) {
-      shareTitle = this.getAttribute('share_title')  + "\n";
+    if (this.getAttribute("data-share-title")) {
+      shareTitle = this.getAttribute("data-share-title") + "\n";
     } else {
-      shareTitle = docTitle  + "\n";
-    };
+      shareTitle = docTitle + "\n";
+    }
 
-    // If the share_description attribute is set use it. Otherwise, only use this for formating
-    let desc = this.getAttribute('share_description');
+    // If the share-description attribute is set use it. Otherwise, only use this for formating
+    let desc = this.getAttribute("data-share-description");
     if (desc) {
       desc = desc + "\n\n";
     } else {
       desc = "\n";
-    };
+    }
 
     // If the hashtags attribute is set use it. Otherwise, set it to an empty string
-    let hashtags = this.getAttribute('hashtags');
+    let hashtags = this.getAttribute("data-hashtags");
     if (hashtags) {
       hashtags = "\n\n" + hashtags;
     } else {
       hashtags = "";
-    };
+    }
 
     // If the author attribute is set use it. Otherwise, set it to an empty string
-    let author = this.getAttribute('author');
+    let author = this.getAttribute("data-author");
     if (author) {
       author = "\n\n" + author;
     } else {
       author = "";
-    };
+    }
 
     // Get the current page's URL
     const url = window.location.href;
 
     // Create the Share URL
-    const mastodon_url = instance + "share?text=" + encodeURIComponent(shareTitle + desc + url + hashtags + author);
+    const mastodonUrl =
+      instance +
+      "share?text=" +
+      encodeURIComponent(shareTitle + desc + url + hashtags + author);
 
     // Open a new tab at the share location
-    window.open(mastodon_url, '_blank');
+    window.open(mastodonUrl, "_blank");
   }
 
   connectedCallback() {
-    this.shadowRoot.querySelector('#mastodonBtn').addEventListener('click', () => this.openModal());
-    this.shadowRoot.querySelector('#shareBtn').addEventListener('click', () => this.validate_before_share());
+    this.shadowRoot
+      .querySelector("#mastodon-button")
+      .addEventListener("click", () => this.openModal());
+    this.shadowRoot
+      .querySelector("#share-button")
+      .addEventListener("click", () => this.shareOnMastodon());
+    this.shadowRoot
+      .querySelector("#instance-input")
+      .addEventListener("blur", () => this.urlCheck());
   }
 
   disconnectedCallback() {
-    this.shadowRoot.querySelector('#mastodonBtn').removeEventListener();
-    this.shadowRoot.querySelector('#shareBtn').removeEventListener();
+    this.shadowRoot.querySelector("#mastodon-button").removeEventListener();
+    this.shadowRoot.querySelector("#share-button").removeEventListener();
   }
 }
 
-window.customElements.define('share-on-mastodon', shareOnMastodon);
+window.customElements.define("share-on-mastodon", shareOnMastodon);
