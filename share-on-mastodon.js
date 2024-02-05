@@ -281,7 +281,7 @@ export class shareOnMastodon extends HTMLElement {
       if (!instance.endsWith("/")) instance = instance + "/";
 
       // Cache the instance/domain for future requests
-      localStorage.setItem("mastodonInstance", instance);
+      localStorage?.setItem("mastodonInstance", instance);
     }
 
     // If the share-title attribute is set use it. Otherwise, use the page title
