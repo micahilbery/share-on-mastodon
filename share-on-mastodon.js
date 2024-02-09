@@ -1,3 +1,10 @@
+/**
+ * @author Micah Ilbery
+ * @version 1.2.0
+ * @license GPL-3.0
+ * @url https://github.com/micahilbery/share-on-mastodon
+ */
+
 // Get the page title to use if a title isn't set.
 const docTitle = document.getElementsByTagName("title")[0].innerHTML;
 const template = document.createElement("template");
