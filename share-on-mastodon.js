@@ -219,39 +219,39 @@ export class shareOnMastodon extends HTMLElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true));
 
     // Get button text from attribute if available
-    if (this.getAttribute("data-button-text")) {
+    if (this.dataset.buttonText) {
       this.shadowRoot.querySelector("#button-text").innerHTML =
-        this.getAttribute("data-button-text");
+        this.dataset.buttonText;
     }
 
     // Get the modal heading from attribute if available
     if (this.getAttribute("data-modal-heading")) {
       this.shadowRoot.querySelector("#modal-heading").innerHTML =
-        this.getAttribute("data-modal-heading");
+        this.dataset.modalHeading;
     }
 
     // Get the modal text from attribute if available
-    if (this.getAttribute("data-modal-text")) {
+    if (this.dataset.modalText) {
       this.shadowRoot.querySelector("#modal-text").innerHTML =
-        this.getAttribute("data-modal-text");
+        this.dataset.modalText;
     }
 
     // Get the modal text from attribute if available
-    if (this.getAttribute("data-jargon-text")) {
+    if (this.dataset.jargonText) {
       this.shadowRoot.querySelector("#instance-jargon").innerHTML =
-        this.getAttribute("data-jargon-text");
+        this.dataset.jargonText;
     }
 
     // Get the default url to use as placeholder text from attribute if available
-    if (this.getAttribute("data-default-url")) {
+    if (this.dataset.defaultUrl) {
       this.shadowRoot.querySelector("#instance-input").placeholder =
-        this.getAttribute("data-default-url");
+        this.dataset.defaultUrl;
     }
 
     // Get the share button text from attribute if available
-    if (this.getAttribute("data-share-text")) {
+    if (this.dataset.shareText) {
       this.shadowRoot.querySelector("#share-text").innerHTML =
-        this.getAttribute("data-share-text");
+        this.dataset.shareText;
     }
   }
 
@@ -293,14 +293,14 @@ export class shareOnMastodon extends HTMLElement {
 
     // If the share-title attribute is set use it. Otherwise, use the page title
     let shareTitle = this.pageTitle;
-    if (this.getAttribute("data-share-title")) {
-      shareTitle = this.getAttribute("data-share-title") + "\n";
+    if (this.dataset.shareTitle) {
+      shareTitle = this.dataset.shareTitle + "\n";
     } else {
       shareTitle = docTitle + "\n";
     }
 
     // If the share-description attribute is set use it. Otherwise, only use this for formating
-    let desc = this.getAttribute("data-share-description");
+    let desc = this.dataset.shareDescription;
     if (desc) {
       desc = desc + "\n\n";
     } else {
@@ -308,7 +308,7 @@ export class shareOnMastodon extends HTMLElement {
     }
 
     // If the hashtags attribute is set use it. Otherwise, set it to an empty string
-    let hashtags = this.getAttribute("data-hashtags");
+    let hashtags = this.dataset.hashtag;
     if (hashtags) {
       hashtags = "\n\n" + hashtags;
     } else {
@@ -316,7 +316,7 @@ export class shareOnMastodon extends HTMLElement {
     }
 
     // If the author attribute is set use it. Otherwise, set it to an empty string
-    let author = this.getAttribute("data-author");
+    let author = this.dataset.author;
     if (author) {
       author = "\n\n" + author;
     } else {
