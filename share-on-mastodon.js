@@ -225,7 +225,7 @@ export class shareOnMastodon extends HTMLElement {
     }
 
     // Get the modal heading from attribute if available
-    if (this.getAttribute("data-modal-heading")) {
+    if (this.dataset.modalHeading) {
       this.shadowRoot.querySelector("#modal-heading").innerHTML =
         this.dataset.modalHeading;
     }
@@ -327,13 +327,14 @@ export class shareOnMastodon extends HTMLElement {
     const url = window.location.href;
 
     // Create the Share URL
-    const mastodonUrl =
-      instance +
-      "share?text=" +
-      encodeURIComponent(shareTitle + desc + url + hashtags + author);
+    const instanceUrl = new URL(`${instance}share?`);
+    const params = new URLSearchParams({
+      text: shareTitle + desc + url + hashtags + author,
+    });
+    const shareUrl = instanceUrl + params;
 
     // Open a new tab at the share location
-    window.open(mastodonUrl, "_blank");
+    window.open(shareUrl, "_blank");
   }
 
   connectedCallback() {
