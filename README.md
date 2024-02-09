@@ -11,7 +11,7 @@ To install this component all you need to do is add this script tag
 to the bottom of your page:
 
 ```html
-<script defer type="module" src="https://cdn.jsdelivr.net/npm/@micahilbery/share-on-mastodon@1.1.0/share-on-mastodon.min.js"></script>
+<script defer type="module" src="https://cdn.jsdelivr.net/npm/@micahilbery/share-on-mastodon@1.2.0/share-on-mastodon.min.js"></script>
 ```
 
 ## Usage
@@ -27,11 +27,11 @@ to customize the markup and shared message you can use the custom attributes.
 For example:
 
 ```html
-<share-on-mastodon share_title="Your Title"
-                   share_description="This is a really descriptive description."
-                   hashtags="#gottaHaveThoseHashtags #hashtag #mastodon"
-                   author="@yourusername@yourinstance.social"
-                   default_url="https://yourinstance.social">
+<share-on-mastodon data-share-title="Your Title"
+                   data-share-description="This is a really descriptive description."
+                   data-hashtags="#gottaHaveThoseHashtags #hashtag #mastodon"
+                   data-author="@yourusername@yourinstance.social"
+                   data-default-url="https://yourinstance.social">
 </share-on-mastodon>
 ```
 
@@ -49,25 +49,26 @@ class and set the css variables in it. Then give the custom element that class.
 
 ```html
 <share-on-mastodon class="your-custom-class"
-                   share_title="Your Title"
-                   share_description="This is a really descriptive description."
-                   hashtags="#gottaHaveThoseHashtags #hashtag #mastodon"
-                   author="@yourusername@yourinstance.social"
-                   default_url="https://yourinstance.social">
+                   data-share-title="Your Title"
+                   data-share-description="This is a really descriptive description."
+                   data-hashtags="#gottaHaveThoseHashtags #hashtag #mastodon"
+                   data-author="@yourusername@yourinstance.social"
+                   data-default-url="https://yourinstance.social">
 </share-on-mastodon>
 ```
 
 ## Custom Attributes
 
-- `share_title` - Adds a title to the shared message body.
-- `share_description` - Adds a description to the shared message body.
-- `hashtags` - Adds hashtags to the shared message body. space separated (ex: `hashtags="#hashtag1 #hashtag2"`)
-- `author` - Adds a mastodon username to the shared message body.
-- `default_url` - The url used for the placeholder text of the modal input.
-- `button_text` = Sets the text of the main button.
-- `modal_heading` - Sets the text of the modal heading.
-- `modal_text` - Sets the modal's text.
-- `share_text` - Sets the text of the modal button.
+- `data-share-title` - Adds a title to the shared message body.
+- `data-share-description` - Adds a description to the shared message body.
+- `data-hashtags` - Adds hashtags to the shared message body. space separated (ex: `data-hashtags="#hashtag1 #hashtag2"`)
+- `data-author` - Adds a mastodon username to the shared message body.
+- `data-default-url` - The url used for the placeholder text of the modal input.
+- `data-button-text` = Sets the text of the main button.
+- `data-modal-heading` - Sets the text of the modal heading.
+- `data-modal-text` - Sets the modal's text.
+- `data-jargon-text` - Set the text under the input explaining what an instance is.
+- `data-share-text` - Sets the text of the modal button.
 
 ## Custom slots
 
@@ -99,3 +100,4 @@ class and set the css variables in it. Then give the custom element that class.
 - `--mastodon-close-bg` - Sets the modal close button;s background color.
 - `--mastodon-close-border` - Sets the modal close button's border.
 - `--mastodon-close-rad` - Sets the modal close button's border radius.
+- `--mastodon-backdrop-blur` - Sets the blur of the content behind the modal.
