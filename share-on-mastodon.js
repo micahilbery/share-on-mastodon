@@ -194,7 +194,7 @@ template.innerHTML = `
   </form>
 
   <p><small id="instance-jargon">
-    Your socal address or "instance" is the portion after your username.
+    Your social address or "instance" is the portion after your username.
     <br>
     (ex. username@instance.com)
   </small><p>
